@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "742105560805",
+    "project_id": "ikao-63ecb",
+    "storage_bucket": "ikao-63ecb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742105560805:android:1a1fe51c5a4a36ed94860c",
+        "android_client_info": {
+          "package_name": "com.example.ikao"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv9-_cLCNxg69bM_u4pH2PSOT7FAVz2i8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
