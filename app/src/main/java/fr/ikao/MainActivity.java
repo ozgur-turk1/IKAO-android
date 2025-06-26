@@ -1,7 +1,12 @@
-package com.example.ikao;
+package fr.ikao;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -14,6 +19,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -27,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkUpdate();
 
         myWebView = findViewById(R.id.webview);
         myWebView.setWebViewClient(new WebViewClient());
@@ -77,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // Sinon, on quitte l'application
                     setEnabled(false); // Désactiver le callback pour permettre de quitter l'appli
-                    onBackPressed(); // Appeler le comportement par défaut pour quitter
                 }
             }
         });
@@ -137,4 +145,82 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                 });
     }
+
+    private void checkUpdate() {
+        Log.d("UpdateCheck", "Starting check for update..."); // LOG 1
+
+        RemoteConfigManager.fetchAndActivate(new RemoteConfigManager.OnConfigUpdateListener() {
+            @Override
+            public void onFetched(boolean isSuccess) {
+                if (isSuccess) {
+                    Log.d("UpdateCheck", "Fetch and activate SUCCESSFUL."); // LOG 2
+
+                    long minVersionCode = RemoteConfigManager.getMinVersionCode();
+                    Log.d("UpdateCheck", "Min version from Firebase: " + minVersionCode); // LOG 3
+
+                    boolean isForced = RemoteConfigManager.isUpdateForced();
+
+                    long currentVersionCode;
+
+                    try {
+                        PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            currentVersionCode = packageInfo.getLongVersionCode();
+                        } else {
+                            currentVersionCode = packageInfo.versionCode;
+                        }
+                        Log.d("UpdateCheck", "Current app version: " + currentVersionCode); // LOG 4
+
+                    } catch (PackageManager.NameNotFoundException e) {
+                        Log.e("MainActivity", "Package name not found", e);
+                        currentVersionCode = -1;
+                    }
+
+                    if (currentVersionCode != -1 && currentVersionCode < minVersionCode) {
+                        Log.d("UpdateCheck", "UPDATE REQUIRED! Showing dialog."); // LOG 5
+
+                        runOnUiThread(() -> showUpdateDialog(isForced));
+                    } else Log.d("UpdateCheck", "No update required. Current: " + currentVersionCode + ", Min: " + minVersionCode); // LOG 6
+
+
+                } else {
+                    Log.w("UpdateCheck", "Fetch and activate FAILED."); // LOG 7
+                }
+            }
+
+
+        });
+    }
+
+    private void showUpdateDialog(boolean isForced) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.update_title))
+                .setMessage(getString(R.string.update_message))
+                .setPositiveButton(R.string.upfdate_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // redirection vers PlayStore
+                        final String appPackageName = getPackageName();
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.market_url) + appPackageName)));
+                        } catch (ActivityNotFoundException e) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.play_store_url) + appPackageName)));
+                        }
+                    }
+                });
+        if (isForced) {
+            builder.setCancelable(false);
+        } else {
+            builder.setNegativeButton(R.string.later, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+        if (!isFinishing()) {
+            builder.create().show();
+        }
+    }
+
 }

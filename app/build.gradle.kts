@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ikao"
+    namespace = "fr.ikao"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.ikao"
+        applicationId = "fr.ikao"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -48,9 +48,12 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
 
     // When using the BoM, don't specify versions in Firebase dependencies
-    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.com.google.firebase.firebase.analytics)
     // Import Firebase FCM (Firebase Cloud Messaging
-    implementation("com.google.firebase:firebase-messaging")
+    implementation(libs.google.firebase.messaging)
+
+    implementation (libs.firebase.config.ktx)
+    implementation (libs.firebase.analytics.ktx)
 
 
     // Add the dependencies for any other desired Firebase products

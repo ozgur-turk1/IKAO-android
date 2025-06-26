@@ -1,4 +1,4 @@
-package com.example.ikao;
+package fr.ikao;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -31,7 +31,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String channelId = "promotion_channel";
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.drawable.ic_notification)
+                        .setSmallIcon(R.drawable.ic_stat_notification)
                         .setContentTitle(title)
                         .setContentText(messageBody)
                         .setAutoCancel(true)

@@ -1,4 +1,4 @@
-package com.example.ikao;
+package fr.ikao;
 
 import org.junit.Test;
 

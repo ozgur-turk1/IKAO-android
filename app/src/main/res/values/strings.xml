@@ -2,4 +2,10 @@
     <string name="app_name">IKAO</string>
     <string name="msg_token_fmt">FCM Token: %s</string>
     <string name="url_main">https://www.ikao.fr</string>
+    <string name="update_title">Mise à jour disponible</string>
+    <string name="update_message">Une nouvelle version de l\'application est requise pour continuer. Veuillez mettre à jour.</string>
+    <string name="upfdate_button">Mettre à jour</string>
+    <string name="play_store_url">https://play.google.com/store/apps/details?id=</string>
+    <string name="market_url">market://details?id=</string>
+    <string name="later">Plus tard</string>
 </resources>
