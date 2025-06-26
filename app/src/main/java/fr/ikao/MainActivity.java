@@ -3,7 +3,6 @@ package fr.ikao;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -39,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         myWebView = findViewById(R.id.webview);
         myWebView.setWebViewClient(new WebViewClient());
-        myWebView.getSettings().setJavaScriptEnabled(true);  // Activer JavaScript si nécessaire
-        myWebView.getSettings().setDomStorageEnabled(true); // Si nécessaire pour les sessions
-        myWebView.getSettings().setAllowFileAccess(false); // Désactiver l'accès aux fichiers locaux
+        myWebView.getSettings().setJavaScriptEnabled(true);  // Activation JavaScript
+        myWebView.getSettings().setDomStorageEnabled(true); // Sessions
+        myWebView.getSettings().setAllowFileAccess(false); // Désactive l'accès aux fichiers locaux
 
         // Activer les cookies
         CookieManager cookieManager = CookieManager.getInstance();
@@ -107,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void askNotificationPermission() {
         new AlertDialog.Builder(this)
-                .setTitle("Activer les notifications")
-                .setMessage("Souhaitez-vous recevoir des notifications pour les nouvelles et les promotions ?")
+                .setTitle(R.string.notif_active)
+                .setMessage(R.string.notif_question)
                 .setPositiveButton("Oui", (dialog, which) -> {
                     // Enregistrer la réponse et activer les notifications
                     sharedPreferences.edit().putBoolean("askedForNotificationPermission", true).apply();
@@ -125,9 +124,9 @@ public class MainActivity extends AppCompatActivity {
     private void enableNotifications() {
         FirebaseMessaging.getInstance().subscribeToTopic("promotions")
                 .addOnCompleteListener(task -> {
-                    String msg = "Notifications activées";
+                    String msg = getString(R.string.notif_on);
                     if (!task.isSuccessful()) {
-                        msg = "Échec de l'activation des notifications";
+                        msg = getString(R.string.notif_fail);
                     }
                     Log.d("MyApp", msg);
                     Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
@@ -137,9 +136,9 @@ public class MainActivity extends AppCompatActivity {
     private void disableNotifications() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic("promotions")
                 .addOnCompleteListener(task -> {
-                    String msg = "Notifications désactivées";
+                    String msg = getString(R.string.notif_off);
                     if (!task.isSuccessful()) {
-                        msg = "Échec de la désactivation des notifications";
+                        msg = getString(R.string.notif_off_fail);
                     }
                     Log.d("MyApp", msg);
                     Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
@@ -147,48 +146,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUpdate() {
-        Log.d("UpdateCheck", "Starting check for update..."); // LOG 1
+        Log.d("UpdateCheck", "Starting check for update...");
 
-        RemoteConfigManager.fetchAndActivate(new RemoteConfigManager.OnConfigUpdateListener() {
-            @Override
-            public void onFetched(boolean isSuccess) {
-                if (isSuccess) {
-                    Log.d("UpdateCheck", "Fetch and activate SUCCESSFUL."); // LOG 2
+        RemoteConfigManager.fetchAndActivate(isSuccess -> {
+            if (isSuccess) {
+                Log.d("UpdateCheck", "Fetch and activate SUCCESSFUL.");
 
-                    long minVersionCode = RemoteConfigManager.getMinVersionCode();
-                    Log.d("UpdateCheck", "Min version from Firebase: " + minVersionCode); // LOG 3
+                long minVersionCode = RemoteConfigManager.getMinVersionCode();
+                Log.d("UpdateCheck", "Min version from Firebase: " + minVersionCode);
 
-                    boolean isForced = RemoteConfigManager.isUpdateForced();
+                boolean isForced = RemoteConfigManager.isUpdateForced();
 
-                    long currentVersionCode;
+                long currentVersionCode;
 
-                    try {
-                        PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                            currentVersionCode = packageInfo.getLongVersionCode();
-                        } else {
-                            currentVersionCode = packageInfo.versionCode;
-                        }
-                        Log.d("UpdateCheck", "Current app version: " + currentVersionCode); // LOG 4
-
-                    } catch (PackageManager.NameNotFoundException e) {
-                        Log.e("MainActivity", "Package name not found", e);
-                        currentVersionCode = -1;
+                try {
+                    PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        currentVersionCode = packageInfo.getLongVersionCode();
+                    } else {
+                        currentVersionCode = packageInfo.versionCode;
                     }
+                    Log.d("UpdateCheck", "Current app version: " + currentVersionCode);
 
-                    if (currentVersionCode != -1 && currentVersionCode < minVersionCode) {
-                        Log.d("UpdateCheck", "UPDATE REQUIRED! Showing dialog."); // LOG 5
-
-                        runOnUiThread(() -> showUpdateDialog(isForced));
-                    } else Log.d("UpdateCheck", "No update required. Current: " + currentVersionCode + ", Min: " + minVersionCode); // LOG 6
-
-
-                } else {
-                    Log.w("UpdateCheck", "Fetch and activate FAILED."); // LOG 7
+                } catch (PackageManager.NameNotFoundException e) {
+                    Log.e("MainActivity", "Package name not found", e);
+                    currentVersionCode = -1;
                 }
+
+                if (currentVersionCode != -1 && currentVersionCode < minVersionCode) {
+                    Log.d("UpdateCheck", "UPDATE REQUIRED! Showing dialog."); // LOG 5
+
+                    runOnUiThread(() -> showUpdateDialog(isForced));
+                } else Log.d("UpdateCheck", "No update required. Current: " + currentVersionCode + ", Min: " + minVersionCode); // LOG 6
+
+
+            } else {
+                Log.w("UpdateCheck", "Fetch and activate FAILED."); // LOG 7
             }
-
-
         });
     }
 
@@ -196,27 +190,19 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.update_title))
                 .setMessage(getString(R.string.update_message))
-                .setPositiveButton(R.string.upfdate_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // redirection vers PlayStore
-                        final String appPackageName = getPackageName();
-                        try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.market_url) + appPackageName)));
-                        } catch (ActivityNotFoundException e) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.play_store_url) + appPackageName)));
-                        }
+                .setPositiveButton(R.string.upfdate_button, (dialog, which) -> {
+                    // redirection vers PlayStore
+                    final String appPackageName = getPackageName();
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.market_url) + appPackageName)));
+                    } catch (ActivityNotFoundException e) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.play_store_url) + appPackageName)));
                     }
                 });
         if (isForced) {
             builder.setCancelable(false);
         } else {
-            builder.setNegativeButton(R.string.later, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setNegativeButton(R.string.later, (dialog, which) -> dialog.dismiss());
         }
         if (!isFinishing()) {
             builder.create().show();
