@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">IKAO</string>
+    <string name="app_name">IKAO Paris</string>
     <string name="msg_token_fmt">FCM Token: %s</string>
     <string name="url_main">https://www.ikao.fr</string>
     <string name="update_title">Mise à jour disponible</string>

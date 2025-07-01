@@ -1,4 +1,4 @@
-package fr.ikao;
+package fr.ikao.IkaoParis;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -156,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("UpdateCheck", "Min version from Firebase: " + minVersionCode);
 
                 boolean isForced = RemoteConfigManager.isUpdateForced();
+
+                Log.d("UpdateCheck", "isForced: " + isForced);
 
                 long currentVersionCode;
 

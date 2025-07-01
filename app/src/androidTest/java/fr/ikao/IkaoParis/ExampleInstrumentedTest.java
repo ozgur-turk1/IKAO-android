@@ -1,4 +1,4 @@
-package fr.ikao;
+package fr.ikao.IkaoParis;
 
 import android.content.Context;
 

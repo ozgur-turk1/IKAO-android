@@ -2,14 +2,14 @@
   "project_info": {
     "project_number": "742105560805",
     "project_id": "ikao-63ecb",
-    "storage_bucket": "ikao-63ecb.appspot.com"
+    "storage_bucket": "ikao-63ecb.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:742105560805:android:1a1fe51c5a4a36ed94860c",
+        "mobilesdk_app_id": "1:742105560805:android:26f0543636a2221294860c",
         "android_client_info": {
-          "package_name": "fr.ikao"
+          "package_name": "fr.ikao.IkaoParis"
         }
       },
       "oauth_client": [],

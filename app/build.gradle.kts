@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "fr.ikao"
+    namespace = "fr.ikao.IkaoParis"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "fr.ikao"
+        applicationId = "fr.ikao.IkaoParis"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

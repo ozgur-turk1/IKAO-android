@@ -18,7 +18,7 @@
         tools:targetApi="31"
         >
         <activity
-            android:name="fr.ikao.MainActivity"
+            android:name="fr.ikao.IkaoParis.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name="fr.ikao.MyFirebaseMessagingService"
+            android:name="fr.ikao.IkaoParis.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
