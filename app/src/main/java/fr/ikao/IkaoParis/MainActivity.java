@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         myWebView = findViewById(R.id.webview);
         myWebView.setWebViewClient(new WebViewClient());
-        myWebView.getSettings().setJavaScriptEnabled(true);  // Activation JavaScript
-        myWebView.getSettings().setDomStorageEnabled(true); // Sessions
-        myWebView.getSettings().setAllowFileAccess(false); // Désactive l'accès aux fichiers locaux
+        myWebView.getSettings().setJavaScriptEnabled(true);     // Activation JavaScript
+        myWebView.getSettings().setDomStorageEnabled(true);     // Sessions
+        myWebView.getSettings().setAllowFileAccess(false);      // Désactive l'accès aux fichiers locaux
 
         // Activer les cookies
         CookieManager cookieManager = CookieManager.getInstance();
