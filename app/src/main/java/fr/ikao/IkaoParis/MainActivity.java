@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
         myWebView.getSettings().setDomStorageEnabled(true);     // Sessions
         myWebView.getSettings().setAllowFileAccess(false);      // Désactive l'accès aux fichiers locaux
 
+        String newUserAgent = "Mozilla/5.0 (Linu x; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36";
+        myWebView.getSettings().setUserAgentString(newUserAgent);
+
+
         // Activer les cookies
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
