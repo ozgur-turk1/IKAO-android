@@ -6,13 +6,13 @@ plugins {
 
 android {
     namespace = "fr.ikao.IkaoParis"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "fr.ikao.IkaoParis"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
+        targetSdk = 36
+        versionCode = 2
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -28,8 +28,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -45,7 +45,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
+    implementation(platform(libs.firebase.bom))
 
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation(libs.com.google.firebase.firebase.analytics)
