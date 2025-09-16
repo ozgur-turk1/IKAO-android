@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.update_title))
                 .setMessage(getString(R.string.update_message))
-                .setPositiveButton(R.string.upfdate_button, (dialog, which) -> {
+                .setPositiveButton(R.string.update_button, (dialog, which) -> {
                     // redirection vers PlayStore
                     final String appPackageName = getPackageName();
                     try {

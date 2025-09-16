@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="update_title">Update available</string>
+    <string name="update_message">A new version of the application is required to continue. Please update.</string>
+    <string name="update_button">Update</string>
+    <string name="later">Later</string>
+    <string name="notif_active">Enable notifications</string>
+    <string name="notif_question">Would you like to receive notifications for news and promotions?</string>
+    <string name="notif_fail">Failed to activate notifications</string>
+    <string name="notif_on">Notifications enabled</string>
+    <string name="notif_off">Notifications disabled</string>
+    <string name="notif_off_fail">Failure to disable notifications</string>
+</resources>

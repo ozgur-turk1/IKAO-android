@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">IKAO PARIS</string>
-    <string name="msg_token_fmt">FCM Token: %s</string>
-    <string name="url_main">https://www.ikao.fr</string>
+    <string name="app_name" translatable="false">IKAO PARIS</string>
+    <string name="msg_token_fmt" translatable="false">FCM Token: %s</string>
+    <string name="url_main" translatable="false">https://www.ikao.fr</string>
     <string name="update_title">Mise à jour disponible</string>
     <string name="update_message">Une nouvelle version de l\'application est requise pour continuer. Veuillez mettre à jour.</string>
-    <string name="upfdate_button">Mettre à jour</string>
-    <string name="play_store_url">https://play.google.com/store/apps/details?id=</string>
-    <string name="market_url">market://details?id=</string>
+    <string name="update_button">Mettre à jour</string>
+    <string name="play_store_url" translatable="false">https://play.google.com/store/apps/details?id=</string>
+    <string name="market_url" translatable="false">market://details?id=</string>
     <string name="later">Plus tard</string>
     <string name="notif_active">Activer les notifications</string>
     <string name="notif_question">Souhaitez-vous recevoir des notifications pour les nouvelles et les promotions ?</string>
