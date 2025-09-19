@@ -20,6 +20,7 @@ import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import androidx.core.view.WindowCompat;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
         setContentView(R.layout.activity_main);
 
         checkUpdate();
@@ -44,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
         String newUserAgent = "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36";
         myWebView.getSettings().setUserAgentString(newUserAgent);
-
 
         // Activer les cookies
         CookieManager cookieManager = CookieManager.getInstance();
